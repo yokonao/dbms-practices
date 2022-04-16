@@ -8,5 +8,8 @@
   },
   "keywords": [],
   "author": "強欲な壷",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^4.6.3"
+  }
 }
