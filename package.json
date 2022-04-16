@@ -10,6 +10,7 @@
   "author": "強欲な壷",
   "license": "ISC",
   "devDependencies": {
+    "tsconfig-freee": "0.1.2",
     "typescript": "^4.6.3"
   }
 }
