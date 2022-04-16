@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "rm -rf dist && tsc --project tsconfig.json",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "lint": "eslint './src/**/*.ts' && prettier --check './src/**/*.ts'",
     "lint:fix": "eslint --fix './src/**/*.ts' && prettier --write './src/**/*.ts'"
   },
@@ -13,16 +13,36 @@
   "author": "強欲な壷",
   "license": "ISC",
   "devDependencies": {
+    "@types/jest": "^27.4.1",
     "@typescript-eslint/eslint-plugin": "^5.19.0",
     "@typescript-eslint/parser": "^5.19.0",
     "eslint": "^8.13.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-import-resolver-typescript": "^2.7.1",
     "eslint-plugin-import": "^2.26.0",
+    "jest": "^27.5.1",
     "prettier": "^2.6.2",
     "prettier-config-freee": "1.1.0",
+    "ts-jest": "^27.1.4",
     "tsconfig-freee": "0.1.2",
     "typescript": "^4.6.3"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "ts"
+    ],
+    "transform": {
+      "^.+\\.ts$": "ts-jest"
+    },
+    "globals": {
+      "ts-jest": {
+        "tsconfig": "tsconfig.json"
+      }
+    },
+    "testMatch": [
+      "**/__tests__/*.+(js|ts)"
+    ]
   },
   "prettier": "prettier-config-freee"
 }
