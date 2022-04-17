@@ -1,5 +1,53 @@
 #! /usr/bin/env node
 
+// src/join/index.ts
+function getRandomInt(max) {
+  return Math.floor(Math.random() * max);
+}
+var createTestDataA = (n) => {
+  const rows = [...Array(n)].map((_, i) => ({
+    a_id: i + 1,
+    column_a: getRandomInt(Number.MAX_VALUE),
+    b_id: getRandomInt(n) + 1
+  }));
+  return rows;
+};
+var createTestDataB = (n) => {
+  const rows = [...Array(n)].map((_, i) => ({
+    b_id: i + 1,
+    column_b: getRandomInt(Number.MAX_VALUE)
+  }));
+  return rows;
+};
+var innerJoin = (left, right, leftColumnName, rightColumnName) => {
+  const res = [];
+  left.forEach((r1) => {
+    right.forEach((r2) => {
+      if (r1[leftColumnName] === r2[rightColumnName]) {
+        res.push({
+          ...r1,
+          ...r2
+        });
+      }
+    });
+  });
+  return res;
+};
+var execute = () => {
+  const n = 5;
+  const dataA = createTestDataA(n);
+  const dataB = createTestDataB(n);
+  const joined = innerJoin(dataA, dataB, "b_id", "b_id");
+  console.log("===TABLE A===");
+  console.log(dataA);
+  console.log("\n\n");
+  console.log("===TABLE B===");
+  console.log(dataB);
+  console.log("\n\n");
+  console.log("===JOINED TABLE===");
+  console.log(joined);
+};
+
 // src/btree/index.ts
 var BTreeNode = class {
   degree;
@@ -60,4 +108,6 @@ if (firstArg === "btree") {
   tree.insert(8);
   console.log(tree.locate(10));
   console.log(tree.locate(8));
+} else if (firstArg === "join") {
+  execute();
 }
