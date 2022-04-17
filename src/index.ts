@@ -1,4 +1,4 @@
-import { BTree } from 'btree';
+import { BTree } from './btree';
 
 const [, , firstArg] = process.argv;
 
