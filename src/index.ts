@@ -1,53 +1,19 @@
-class BTreeNode {
-  private degree: number;
-  private keys: number[];
-  private isLeaf: boolean;
-  private children: BTreeNode[];
+import { BTree } from 'btree';
 
-  constructor(degree: number, isLeaf: boolean) {
-    this.degree = degree;
-    this.keys = [];
-    this.isLeaf = isLeaf;
-    this.children = [];
-  }
+const [, , firstArg] = process.argv;
 
-  private calcInsertedIndex(key: number) {
-    for (let i = 0; i < this.keys.length; i++) {
-      if (key < this.keys[i]) {
-        return i;
-      }
-    }
-    return this.keys.length - 1;
-  }
-
-  public appendKey(key: number) {
-    const insertedIndex = this.calcInsertedIndex(key);
-    this.keys.splice(insertedIndex, 0, key);
-  }
-
-  public locate(key: number) {
-    if (this.isLeaf) {
-      return this.keys.findIndex((k) => k === key);
-    }
-
-    throw new Error('Not Implemented');
-  }
+if (!firstArg) {
+  console.error('Please pass one argument!!');
+  process.exit(1);
 }
 
-export class BTree {
-  private degree: number;
-  private root: BTreeNode;
+console.log(firstArg);
 
-  constructor(degree: number) {
-    this.degree = degree;
-    this.root = new BTreeNode(degree, true);
-  }
-
-  public insert(key: number) {
-    this.root.appendKey(key);
-  }
-
-  public locate(key: number) {
-    return this.root.locate(key);
-  }
+if (firstArg === 'btree') {
+  const tree = new BTree(Number.MAX_VALUE);
+  tree.insert(10);
+  console.log(tree.locate(10));
+  tree.insert(8);
+  console.log(tree.locate(10));
+  console.log(tree.locate(8));
 }
