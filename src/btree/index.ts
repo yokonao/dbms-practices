@@ -11,7 +11,7 @@ class BTreeNode {
     this.children = [];
   }
 
-  private calcInsertedIndex(key: number) {
+  private _calcInsertedIndex(key: number) {
     for (let i = 0; i < this.keys.length; i++) {
       if (key < this.keys[i]) {
         return i;
@@ -21,7 +21,7 @@ class BTreeNode {
   }
 
   public appendKey(key: number) {
-    const insertedIndex = this.calcInsertedIndex(key);
+    const insertedIndex = this._calcInsertedIndex(key);
     this.keys.splice(insertedIndex, 0, key);
   }
 
@@ -51,5 +51,3 @@ export class BTree {
     return this.root.locate(key);
   }
 }
-
-
