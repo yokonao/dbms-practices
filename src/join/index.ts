@@ -30,7 +30,7 @@ type JoinFunction = (
   rightColumnName: string
 ) => Row[];
 
-const innerJoinSimple: JoinFunction = (
+const innerJoinNestedLoop: JoinFunction = (
   left,
   right,
   leftColumnName,
@@ -86,10 +86,10 @@ const innerJoinHash: JoinFunction = (
 };
 
 export const execute = () => {
-  const n = 1000;
+  const n = 5;
   const dataA = createTestDataA(n);
   const dataB = createTestDataB(n);
-  const simpleJoined = innerJoinSimple(dataA, dataB, 'b_id', 'b_id');
+  const simpleJoined = innerJoinNestedLoop(dataA, dataB, 'b_id', 'b_id');
   const hashJoined = innerJoinHash(dataA, dataB, 'b_id', 'b_id');
 
   console.log('===TABLE A===');
@@ -103,4 +103,26 @@ export const execute = () => {
   console.log('\n\n');
   console.log('===HASH JOINED TABLE===');
   console.log(hashJoined);
+};
+
+export const measureJoinPerformance = (n: number, type: 'NL' | 'SM' | 'H') => {
+  const dataA = createTestDataA(n);
+  const dataB = createTestDataB(n);
+  const join = () => {
+    if (type === 'NL') {
+      innerJoinNestedLoop(dataA, dataB, 'b_id', 'b_id');
+    } else if (type === 'SM') {
+      throw new Error('Not Implemented');
+    } else if (type === 'H') {
+      innerJoinHash(dataA, dataB, 'b_id', 'b_id');
+    }
+  };
+
+  performance.mark('START');
+  join();
+  performance.mark('END');
+  performance.measure('JOIN', 'START', 'END');
+
+  const results = performance.getEntriesByName('JOIN');
+  console.log(type, n, results[0].duration);
 };

@@ -1,14 +1,12 @@
-import { execute } from './join';
+import { execute, measureJoinPerformance } from './join';
 import { BTree } from './btree';
 
-const [, , firstArg] = process.argv;
+const [, , firstArg, secondArg, thirdArg, forthArg] = process.argv;
 
 if (!firstArg) {
   console.error('Please pass one argument!!');
   process.exit(1);
 }
-
-console.log(firstArg);
 
 if (firstArg === 'btree') {
   const tree = new BTree(Number.MAX_VALUE);
@@ -19,4 +17,10 @@ if (firstArg === 'btree') {
   console.log(tree.locate(8));
 } else if (firstArg === 'join') {
   execute();
+} else if (firstArg === 'measure') {
+  if (secondArg === 'join') {
+    if (forthArg === 'NL' || forthArg === 'H') {
+      measureJoinPerformance(Number(thirdArg), forthArg);
+    }
+  }
 }
