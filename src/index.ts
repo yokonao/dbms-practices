@@ -1,3 +1,4 @@
+import { execute } from './join';
 import { BTree } from './btree';
 
 const [, , firstArg] = process.argv;
@@ -16,4 +17,6 @@ if (firstArg === 'btree') {
   tree.insert(8);
   console.log(tree.locate(10));
   console.log(tree.locate(8));
+} else if (firstArg === 'join') {
+  execute();
 }
