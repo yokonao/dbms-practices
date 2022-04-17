@@ -6,4 +6,4 @@ WORK_DIR=$(pwd)
 
 rm -rf dist
 node $SCRIPT_DIR/build.js
-sed -e $'1s/^/#! \/usr\/bin\/env node\\\n\\\n/' dist/index.js > tree-practices
+sed -e $'1s/^/#! \/usr\/bin\/env node\\\n\\\n/' dist/index.js >dbms-practices

@@ -1,5 +1,5 @@
 {
-  "name": "tree-practices",
+  "name": "dbms-practices",
   "version": "0.1.0",
   "description": "Implement tree structures(B+Tree etc) as practice",
   "main": "index.js",
