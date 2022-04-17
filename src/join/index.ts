@@ -30,7 +30,7 @@ type JoinFunction = (
   rightColumnName: string
 ) => Row[];
 
-const innerJoin: JoinFunction = (
+const innerJoinSimple: JoinFunction = (
   left,
   right,
   leftColumnName,
@@ -51,11 +51,46 @@ const innerJoin: JoinFunction = (
   return res;
 };
 
+const innerJoinHash: JoinFunction = (
+  left,
+  right,
+  leftColumnName,
+  rightColumnName
+) => {
+  const res: Row[] = [];
+  const hashTable: { [hashedValue: number]: Row[] } = {};
+  left.forEach((r1) => {
+    const hashedValue = r1[leftColumnName];
+    if (hashTable[hashedValue]) {
+      hashTable[hashedValue].push(r1);
+    } else {
+      hashTable[hashedValue] = [r1];
+    }
+  });
+
+  right.forEach((r2) => {
+    const hashedValue = r2[rightColumnName];
+    if (hashTable[hashedValue]) {
+      hashTable[hashedValue].forEach((r1) => {
+        if (r1[leftColumnName] === r2[rightColumnName]) {
+          res.push({
+            ...r1,
+            ...r2,
+          });
+        }
+      });
+    }
+  });
+
+  return res;
+};
+
 export const execute = () => {
-  const n = 5;
+  const n = 1000;
   const dataA = createTestDataA(n);
   const dataB = createTestDataB(n);
-  const joined = innerJoin(dataA, dataB, 'b_id', 'b_id');
+  const simpleJoined = innerJoinSimple(dataA, dataB, 'b_id', 'b_id');
+  const hashJoined = innerJoinHash(dataA, dataB, 'b_id', 'b_id');
 
   console.log('===TABLE A===');
   console.log(dataA);
@@ -63,6 +98,9 @@ export const execute = () => {
   console.log('===TABLE B===');
   console.log(dataB);
   console.log('\n\n');
-  console.log('===JOINED TABLE===');
-  console.log(joined);
+  console.log('===SIMPLE JOINED TABLE===');
+  console.log(simpleJoined);
+  console.log('\n\n');
+  console.log('===HASH JOINED TABLE===');
+  console.log(hashJoined);
 };
