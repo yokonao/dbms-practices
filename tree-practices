@@ -1,0 +1,63 @@
+#! /usr/bin/env node
+
+// src/btree/index.ts
+var BTreeNode = class {
+  degree;
+  keys;
+  isLeaf;
+  children;
+  constructor(degree, isLeaf) {
+    this.degree = degree;
+    this.keys = [];
+    this.isLeaf = isLeaf;
+    this.children = [];
+  }
+  calcInsertedIndex(key) {
+    for (let i = 0; i < this.keys.length; i++) {
+      if (key < this.keys[i]) {
+        return i;
+      }
+    }
+    return this.keys.length - 1;
+  }
+  appendKey(key) {
+    const insertedIndex = this.calcInsertedIndex(key);
+    this.keys.splice(insertedIndex, 0, key);
+  }
+  locate(key) {
+    if (this.isLeaf) {
+      return this.keys.findIndex((k) => k === key);
+    }
+    throw new Error("Not Implemented");
+  }
+};
+var BTree = class {
+  degree;
+  root;
+  constructor(degree) {
+    this.degree = degree;
+    this.root = new BTreeNode(degree, true);
+  }
+  insert(key) {
+    this.root.appendKey(key);
+  }
+  locate(key) {
+    return this.root.locate(key);
+  }
+};
+
+// src/index.ts
+var [, , firstArg] = process.argv;
+if (!firstArg) {
+  console.error("Please pass one argument!!");
+  process.exit(1);
+}
+console.log(firstArg);
+if (firstArg === "btree") {
+  const tree = new BTree(Number.MAX_VALUE);
+  tree.insert(10);
+  console.log(tree.locate(10));
+  tree.insert(8);
+  console.log(tree.locate(10));
+  console.log(tree.locate(8));
+}
