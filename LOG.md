@@ -6,4 +6,7 @@ npm i prettier -D
 npm install prettier-config-freee -D -E
 npm i @typescript-eslint/eslint-plugin @typescript-eslint/parser eslint eslint-config-prettier eslint-import-resolver-typescript eslint-plugin-import -D
 npm i @types/jest jest ts-jest -D
+
+npm i -D ts-node
+npm i esbuild esbuild-register -D
 ```
